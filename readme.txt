@@ -1,4 +1,4 @@
-=== Plugin Name ===
+=== MediaPress Featured Media ===
 Contributors: BuddyDev, raviousprime
 Tags: mediapress, buddypress
 Requires at least: 4.0
@@ -7,9 +7,19 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+Mark media as Featured.
+
 == Description ==
 
-An add-on for MediaPress. Allow users to mark media as featured and list featured media using "( MediaPress ) Featured Media" widget.
+Featured Media addon for MediaPress. Allow users to mark media photo, audio, videos etc on on WordPress/BuddyPress site.
+
+Features:-
+
+* Mark Media as featured media
+* Site admin controls for which type of media can be featured( you can selet Photo, audio, video etc).
+* Can be enable for Sitewide, Members, groups media.
+* List Featured Media by type/component.
+* List Featured Media by user i.e. current or displayed user.
 
 == Installation ==
 
@@ -28,6 +38,10 @@ You may need to follow the following steps.
 We request you to use [BuddyDev Forums](https://buddydev.com/support/forums/) for all the support questions. We love helping. Using BuddyDev forums allows us to assist you better and quicker.
 
 == Screenshots ==
+
+1. Admin options screenshot-1.png.
+2. Widget setting screenshot-2.png.
+3. Front end viewing screenshot-3.png.
 
 == Changelog ==
 
