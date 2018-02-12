@@ -13,13 +13,11 @@ function mppfm_add_interface( $media_id = null ) {
 		return '';
 	}
 
-	$label = ( mppfm_is_featured( $media_id ) ) ? 'Remove as Featured' : 'Mark as Featured';
+	$label = ( mppfm_is_featured( $media_id ) ) ? __ ( 'Remove as Featured', 'mpp-featured-media' ) : __( 'Mark as Featured', 'mpp-featured-media' );
 
 	?>
 
-	<button class="mppfm-interface-btn" data-media-id="<?php echo $media_id ?>">
-		<?php _e( $label, 'mpp-featured-media' ); ?>
-	</button>
+    <a href="#" class="button mppfm-interface-btn" data-media-id="<?php echo $media_id ?>"><?php echo $label ?></a>
 
 	<?php
 

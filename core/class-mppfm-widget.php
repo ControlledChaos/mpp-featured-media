@@ -19,15 +19,22 @@ class MPPFM_Featured_Media_List_widget extends WP_Widget {
 
 	public function widget( $args, $instance ) {
 
-		if ( ! is_user_logged_in() || ! bp_is_user() ) {
-			return '';
-		}
+		$component = $instance['component'];
+        $component_id = '';
 
-		$user_id = ( $instance['user_type'] == 'displayed' ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+	    if ( 'groups' == $component ) {
+	        $component_id = bp_get_current_group_id();
+        } elseif( 'members' == $component ) {
+            $component_id = ( $instance['user_type'] == 'displayed' ) ? bp_displayed_user_id() : bp_loggedin_user_id();
+        }
+
+        if ( empty( $component_id ) ) {
+	        return;
+        }
 
 		$media_args = array(
 			'component'    => $instance['component'],
-			'component_id' => $user_id,
+			'component_id' => $component_id,
 			'status'       => $instance['status'],
 			'type'         => $instance['type'],
 			'order'        => 'DESC',//order
@@ -161,32 +168,48 @@ class MPPFM_Featured_Media_List_widget extends WP_Widget {
 
 
 		<p>
-			<?php _e( 'Select Component: ', 'mpp-featured-media' ); ?>
-
 			<?php
 
-			mpp_component_dd( array(
-				'name'     => $this->get_field_name( 'component' ),
-				'id'       => $this->get_field_id( 'component' ),
-				'selected' => $component
-			) );
+            $components = mppfm_get_components();
 
-			?>
+            _e( 'Select Component: ', 'mpp-featured-media' );
+
+            ?>
+
+            <?php if ( ! empty( $components ) ): ?>
+
+                <select name="<?php echo $this->get_field_name( 'component' ); ?>">
+                    <?php foreach ( $components as $key => $label ) : ?>
+                        <option value="<?php echo $key ?>" <?php selected( $component, $key ) ?>><?php echo $label; ?></option>
+                    <?php endforeach; ?>
+                </select>
+
+            <?php else: ?>
+
+                <?php _e( 'No Active component', 'mpp-featured-media' ); ?>
+
+            <?php endif; ?>
 
 		</p>
 
 		<p>
 
-			<?php _e( 'Select Type: ', 'mpp-featured-media' ); ?>
+			<?php
 
-			<?php if ( ! empty( mpp_get_active_types() ) ): ?>
+            $types = mppfm_get_types();
+
+            _e( 'Select Type: ', 'mpp-featured-media' );
+
+            ?>
+
+			<?php if ( ! empty( $types ) ): ?>
 
 				<select name="<?php echo $this->get_field_name( 'type' ); ?>">
 
-					<?php foreach ( mpp_get_active_types() as $key => $label ) : ?>
+					<?php foreach ( $types as $key => $label ) : ?>
 
 						<option value="<?php echo $key ?>" <?php selected( $type, $key ) ?>>
-							<?php _e( $label->label, 'mpp-featured-media' ); ?>
+							<?php echo $label; ?>
 						</option>
 
 					<?php endforeach; ?>
@@ -203,13 +226,19 @@ class MPPFM_Featured_Media_List_widget extends WP_Widget {
 
 		<p>
 
-			<?php _e( 'Select Status: ', 'mpp-featured-media' ); ?>
+			<?php
 
-			<?php if ( ! empty( mpp_get_active_statuses() ) ): ?>
+            $active_status = mpp_get_active_statuses();
+
+            _e( 'Select Status: ', 'mpp-featured-media' );
+
+            ?>
+
+			<?php if ( ! empty( $active_status ) ): ?>
 
 				<select name="<?php echo $this->get_field_name( 'status' ); ?>">
 
-					<?php foreach ( mpp_get_active_statuses() as $key => $label ) : ?>
+					<?php foreach ( $active_status as $key => $label ) : ?>
 
 						<option value="<?php echo $key ?>" <?php selected( $status, $key ) ?>>
 							<?php _e( $label->label, 'mpp-featured-media' ); ?>

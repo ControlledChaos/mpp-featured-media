@@ -24,30 +24,30 @@ class MPPFM_Admin_Settings {
 		$fields = array(
 			array(
 				'name'    => 'mppfm-components',
-				'label'   => __( 'Enabled for Components', 'mpp-set-featured' ),
+				'label'   => __( 'Enabled for Components', 'mpp-featured-media' ),
 				'type'    => 'multicheck',
-				'options' => mppfm_get_active_components()
+				'options' => mppfm_get_components()
 			),
 			array(
 				'name'    => 'mppfm-types',
-				'label'   => __( 'Enabled for Types', 'mpp-set-featured' ),
+				'label'   => __( 'Enabled for Types', 'mpp-featured-media' ),
 				'type'    => 'multicheck',
-				'options' => mppfm_get_active_types()
+				'options' => mppfm_get_types()
 			),
 			array(
 				'name'    => 'mppfm-screens',
-				'label'   => __( 'Appearance', 'mpp-set-featured' ),
+				'label'   => __( 'Appearance', 'mpp-featured-media' ),
 				'type'    => 'multicheck',
 				'options' => array(
-					'single_media'   => __( 'Single Media Page', 'mpp-set-featured' ),
-					'light_box'      => __( 'LightBox', 'mpp-set-featured' ),
-					'single_gallery' => __( 'Single Gallery', 'mpp-set-featured' )
+					'single_media'   => __( 'Single Media Page', 'mpp-featured-media' ),
+					'light_box'      => __( 'LightBox', 'mpp-featured-media' ),
+					'single_gallery' => __( 'Single Gallery', 'mpp-featured-media' )
 				)
 			)
 
 		);
 
-		$panel->add_section( 'mppfm-settings', __( 'MediaPress Set Featured Setting', 'mpp-set-featured' ) )->add_fields( $fields );
+		$panel->add_section( 'mppfm-settings', __( 'MediaPress Set Featured Setting', 'mpp-featured-media' ) )->add_fields( $fields );
 
 	}
 

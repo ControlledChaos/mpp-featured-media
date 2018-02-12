@@ -52,32 +52,37 @@ function mppfm_user_can_mark_featured( $media_id ) {
 function mppfm_show_media_of() {
 
 	return array(
-		'loggedin'  => __( 'Logged In User', 'mpp-set-featured' ),
-		'displayed' => __( 'Displayed User', 'mpp-set-featured' ),
+		'loggedin'  => __( 'Logged In User', 'mpp-featured-media' ),
+		'displayed' => __( 'Displayed User', 'mpp-featured-media' ),
 	);
 }
 
-function mppfm_get_active_components() {
+function mppfm_get_components() {
 
-	$active_component = array();
+	$components = array();
 
-	$components = mpp_get_active_components();
+	$active_components = mpp_get_active_components();
 
-	if ( empty( $components ) ) {
-		return $active_component;
+	if ( empty( $active_components ) ) {
+		return $components;
 	}
 
-	foreach ( $components as $key => $component ) {
-		$active_component[ $key ] = $component->label;
+	foreach ( $active_components as $key => $component ) {
+
+	    if ( 'sitewide' == $key ) {
+	        continue;
+        }
+
+        $components[ $key ] = $component->label;
 	}
 
-	return $active_component;
+	return $components;
 }
 
 /**
  * @return array of active media types
  */
-function mppfm_get_active_types() {
+function mppfm_get_types() {
 
 	$active_types = array();
 

@@ -1,6 +1,6 @@
 jQuery(document).ready(function (jq) {
 
-    jq(document).on('click', 'button.mppfm-interface-btn', function () {
+    jq(document).on('click', 'a.mppfm-interface-btn', function () {
 
         var $this = jq(this),
             media_id = $this.data('media-id');
