@@ -4,4 +4,5 @@
 }
 .mppfm-featured-media li {
     margin-right: 2px;
+    float: left !important;
 }

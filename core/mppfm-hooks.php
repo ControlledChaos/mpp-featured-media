@@ -52,7 +52,7 @@ add_action( 'mpp_lightbox_media_meta', 'mppfm_add_lightbox_ui' );
  */
 function mppfm_show_user_header_featured_media() {
 
-    if ( ! mpp_get_option( 'mppfm_media_in_header' ) ) {
+    if ( ! mpp_get_option( 'mppfm_show_in_user_header' ) ) {
         return '';
     }
 
@@ -71,7 +71,7 @@ add_action( 'bp_profile_header_meta', 'mppfm_show_user_header_featured_media' );
  */
 function mppfm_show_group_header_featured_media() {
 
-    if ( ! mpp_get_option( 'mppfm_media_in_header' ) ) {
+    if ( ! mpp_get_option( 'mppfm_show_in_group_header' ) ) {
         return '';
     }
 

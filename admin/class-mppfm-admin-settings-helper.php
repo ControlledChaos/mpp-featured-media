@@ -55,8 +55,13 @@ class MPPFM_Admin_Settings_Helper {
 				)
 			),
 			array(
-				'name'    => 'mppfm_media_in_header',
-				'label'   => __( 'Show media in header', 'mpp-featured-media' ),
+				'name'    => 'mppfm_show_in_user_header',
+				'label'   => __( 'Show media user header', 'mpp-featured-media' ),
+				'type'    => 'checkbox',
+			),
+			array(
+				'name'    => 'mppfm_show_in_group_header',
+				'label'   => __( 'Show media group header', 'mpp-featured-media' ),
 				'type'    => 'checkbox',
 			),
 			array(
