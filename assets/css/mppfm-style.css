@@ -1,1 +1,7 @@
-.mppfm-interface-btn{margin: 5px; height: 30px;}
+.mppfm-featured-media {
+    display: block;
+    width: 100%;
+}
+.mppfm-featured-media li {
+    margin-right: 2px;
+}

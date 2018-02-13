@@ -1,4 +1,9 @@
 <?php
+/**
+ * Main plugin file
+ *
+ * @package mpp-featured-media
+ */
 
 /**
  * Plugin Name: MediaPress Featured Media
@@ -10,7 +15,7 @@
  */
 
 /**
- * Contributor: RaviousPrime :)
+ * Contributor: @raviousprime :)
  */
 
 // exit if file access directly
@@ -24,29 +29,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 class MPP_Featured_Media {
 
 	/**
-	 * @var null | static variable will make sure only one instance of class is there
+	 * Class Instance
+	 *
+	 * @var MPP_Featured_Media
 	 */
 	private static $instance = null;
 
 	/**
-	 * @var | String will contain plugin directory path
+	 * Plugin directory absolute path
+	 *
+	 * @var string
 	 */
 	private $path;
 
 	/**
-	 * @var | String will contain plugin directory url
+	 * Plugin directory url to be accessed over web
+	 *
+	 * @var string
 	 */
 	private $url;
 
 	/**
-	 * MPP_Featured_Media constructor.
+	 * The constructor.
 	 */
 	private function __construct() {
 		$this->setup();
 	}
 
 	/**
-	 * @return MPP_Featured_Media|null
+	 * Get class instance
+	 *
+	 * @return MPP_Featured_Media
 	 */
 	public static function get_instance() {
 
@@ -76,6 +89,10 @@ class MPP_Featured_Media {
 	 */
 	public function load() {
 
+		if ( ! function_exists( 'buddypress' ) ) {
+			return;
+		}
+
 		$files = array(
 			'core/mppfm-functions.php',
 			'core/mppfm-hooks.php',
@@ -84,13 +101,12 @@ class MPP_Featured_Media {
 		);
 
 		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-			$files[] = 'admin/mppfm-admin.php';
+			$files[] = 'admin/class-mppfm-admin-settings-helper.php';
 		}
 
 		foreach ( $files as $file ) {
 			require_once $this->path . $file;
 		}
-
 	}
 
 	/**
@@ -99,15 +115,15 @@ class MPP_Featured_Media {
 	public function load_assets() {
 
 		wp_register_style( 'mppfm-css', $this->url . 'assets/css/mppfm-style.css' );
-		wp_enqueue_style( 'mppfm-css' );
 
 		wp_register_script( 'mppfm-js', $this->url . 'assets/js/mppfm-script.js', array( 'jquery' ) );
-		wp_localize_script( 'mppfm-js', 'MSF', array(
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'_nonce'   => wp_create_nonce( 'mppfm-process-req' )
-		) );
-		wp_enqueue_script( 'mppfm-js' );
 
+		wp_localize_script( 'mppfm-js', 'MPP_FEATURED_MEDIA', array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+		) );
+
+		wp_enqueue_style( 'mppfm-css' );
+		wp_enqueue_script( 'mppfm-js' );
 	}
 
 	/**

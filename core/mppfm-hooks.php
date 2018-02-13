@@ -1,51 +1,84 @@
 <?php
+/**
+ * Plugin hooks file
+ *
+ * @package mpp-featured-media
+ */
 
 // exit if file access directly
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-function mppfm_add_interface( $media_id = null ) {
+/**
+ * Add ui to mark media as featured
+ *
+ * @return string
+ */
+function mppfm_add_ui() {
 
-	$media_id = ( is_null( $media_id ) ) ? mpp_get_current_media_id() : $media_id;
+    $media = mpp_get_media();
 
-	if ( empty( $media_id ) || ! mppfm_media_can_mark_featured( $media_id ) || ! mppfm_user_can_mark_featured( $media_id ) ) {
+    if ( ! mppfm_is_valid_screen() || ! mppfm_can_mark_media_featured( $media ) || ! mppfm_can_user_mark_media_featured( $media ) ) {
+        return '';
+    }
+
+    mppfm_featured_button( $media->id );
+}
+add_action( 'mpp_media_meta', 'mppfm_add_ui' );
+
+/**
+ * Add
+ *
+ * @return string
+ */
+function mppfm_add_lightbox_ui() {
+
+	$media = mpp_get_media();
+	$screens = mpp_get_option( 'mppfm_button_ui_places', array() );
+
+	if ( ! array_key_exists( 'light_box', $screens ) || ! mppfm_can_mark_media_featured( $media ) || ! mppfm_can_user_mark_media_featured( $media ) ) {
 		return '';
 	}
 
-	$label = ( mppfm_is_featured( $media_id ) ) ? __ ( 'Remove as Featured', 'mpp-featured-media' ) : __( 'Mark as Featured', 'mpp-featured-media' );
-
-	?>
-
-    <a href="#" class="button mppfm-interface-btn" data-media-id="<?php echo $media_id ?>"><?php echo $label ?></a>
-
-	<?php
-
+	mppfm_featured_button( $media->id );
 }
-add_action( 'mpp_before_bulk_edit_media_item_thumbnail', 'mppfm_add_interface' );
+add_action( 'mpp_lightbox_media_meta', 'mppfm_add_lightbox_ui' );
 
-function mppfm_media_add_interface() {
+/**
+ * Show featured media in user profile
+ *
+ * @return string
+ */
+function mppfm_show_user_header_featured_media() {
 
-	$media_id = mpp_get_current_media_id();
-	
-	if ( empty( $media_id ) || ! mppfm_is_valid_screen( $media_id ) ) {
-		return '';
-	}
+    if ( ! mpp_get_option( 'mppfm_media_in_header' ) ) {
+        return '';
+    }
 
-	mppfm_add_interface( $media_id );
+	mppfm_featured_media( array(
+		'component'    => 'members',
+		'component_id' => bp_displayed_user_id(),
+		'per_page'     => mppfm_get_header_media_limit(),
+	) );
 }
-add_action( 'mpp_media_meta', 'mppfm_media_add_interface' );    
+add_action( 'bp_profile_header_meta', 'mppfm_show_user_header_featured_media' );
 
-function mppfm_light_box_add_interface() {
+/**
+ * Show featured media in user profile
+ *
+ * @return string
+ */
+function mppfm_show_group_header_featured_media() {
 
-	$media_id = mpp_get_current_media_id();
+    if ( ! mpp_get_option( 'mppfm_media_in_header' ) ) {
+        return '';
+    }
 
-	$screens = mpp_get_option( 'mppfm-screens', array() );
-
-	if ( empty( $media_id ) || ! in_array( 'light_box', $screens ) ) {
-		return '';
-	}
-
-	mppfm_add_interface( $media_id );
+	mppfm_featured_media( array(
+		'component'    => 'groups',
+		'component_id' => bp_get_current_group_id(),
+		'per_page'     => mppfm_get_header_media_limit(),
+	) );
 }
-add_action( 'mpp_lightbox_media_meta', 'mppfm_light_box_add_interface' );
+add_action( 'bp_group_header_meta', 'mppfm_show_group_header_featured_media' );
